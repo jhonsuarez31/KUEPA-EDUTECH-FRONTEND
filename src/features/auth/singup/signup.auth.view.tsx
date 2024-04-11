@@ -49,7 +49,7 @@ const SignupView: FC<Props> = ({
           <div className="w-full">
             <div className="mb-12">
               <small className="text-gray-400 text-2xl">
-                No sabes por donde empezar?
+                ¿Qué esperas para iniciar?
               </small>
               <h2 className="text-4xl font-semibold max-w-md">Registrate</h2>
             </div>
@@ -175,12 +175,9 @@ const SignupView: FC<Props> = ({
                 <p className="text-gray-400 text-xs">O</p>
                 <span className="h-[2px] w-full bg-gray-200 my-1" />
               </div>
-              <Button type="button" className="w-full" variant={"outline"}>
-                Continua con Google
-              </Button>
               <p className="text-xs mt-10 text-center">
                 Ya tienes una cuenta?{" "}
-                <Link className="text-blue-500" to="/signin">
+                <Link className="text-red-500" to="/signin">
                   Inicia Sesion
                 </Link>
               </p>

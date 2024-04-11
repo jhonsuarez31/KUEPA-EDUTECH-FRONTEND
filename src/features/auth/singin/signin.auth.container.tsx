@@ -27,8 +27,13 @@ const SigninContainer = () => {
     console.log('signInRepose', signInRepose)
     if (signInRepose.data) {
       localStorage.setItem("userid", signInRepose.data.id)
+      localStorage.setItem("token", signInRepose.data.token)
+      localStorage.setItem("firstName", signInRepose.data.firstName)
+      localStorage.setItem("rol", signInRepose.data.rol.rol)
+
+
       showAlert("Bienvenido", "Has iniciado sesión correctamente", "success")
-      navigate("/")
+      navigate("/class")
     } else {
       showAlert("error", "Usuario o contraseña incorrectos")
     }

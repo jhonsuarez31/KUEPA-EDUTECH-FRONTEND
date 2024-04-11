@@ -1,17 +1,24 @@
-//import FooterContainer from "@/components/footer/footer.container"
-//import NavbarContainer from "@/components/navbar/navbar.container"
-import React from "react"
+import React, { ReactNode } from 'react';
 
 interface Props {
-  children: React.ReactNode
+  children: ReactNode[];
 }
 
 const Layout = ({ children }: Props) => {
-  return (
-    <div className="relative min-h-screen bg-gray-50">
-      <main className="container container-lg pt-16 pb-36">{children}</main>
-    </div>
-  )
-}
+  if (children.length !== 2) {
+    throw new Error('Layout component requires exactly two children');
+  }
 
-export default Layout
+  return (
+    <div className="w-full flex justify-center" >
+      <div className="w mr-4 flex items-center justify-center border-2">
+        {children[0]}
+      </div>
+      <div className="w-1000 flex items-center justify-center bg-blue-500 borderc-5">
+        {children[1]}
+      </div>
+    </div>
+  );
+};
+
+export default Layout;
