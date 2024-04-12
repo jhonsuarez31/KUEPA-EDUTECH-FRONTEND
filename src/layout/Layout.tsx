@@ -1,24 +1,17 @@
 import React, { ReactNode } from 'react';
+import NavbarContainer from '../components/navbar/navbar.container';
 
 interface Props {
-  children: ReactNode[];
+  children: ReactNode[] | ReactNode ;
 }
 
 const Layout = ({ children }: Props) => {
-  if (children.length !== 2) {
-    throw new Error('Layout component requires exactly two children');
-  }
-
   return (
-    <div className="w-full flex justify-center" >
-      <div className="w mr-4 flex items-center justify-center border-2">
-        {children[0]}
-      </div>
-      <div className="w-1000 flex items-center justify-center bg-blue-500 borderc-5">
-        {children[1]}
-      </div>
+    <div className="relative min-h-screen bg-gray-50">
+      <NavbarContainer />
+      <main className="container container-xl pt-16 pb-36">{children}</main>
     </div>
-  );
+  )
 };
 
 export default Layout;

@@ -69,11 +69,10 @@ const SignupContainer = () => {
           "success"
         )
         navigate("/signin")
-      } else {
-        showAlert("Error", `Error al crear el usuario ${email}`, "error")
-      }
+      } 
     } catch (error) {
-      console.log(error)
+      showAlert("Error", `Error al crear el usuario ${email}`, "error")
+
     }
   }
 
