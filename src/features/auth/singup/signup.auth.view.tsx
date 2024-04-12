@@ -187,6 +187,8 @@ const SignupView: FC<Props> = ({
 
         {/* //container para el banner del login */}
         <div className="flex-1 hidden min-h-full   overflow-hidden lg:flex items-center justify-center">
+
+          
           <div className="w-full h-full max-h-[500px] rounded-md overflow-hidden">
             {/* imagen ramdom */}
             <img

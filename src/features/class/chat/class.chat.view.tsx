@@ -1,4 +1,8 @@
-import React, { FC, KeyboardEvent } from 'react';
+import React, { FC, KeyboardEvent, useEffect, useState } from 'react';
+import { RootState } from '@reduxjs/toolkit/query';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../hooks/app/hooks';
+import { startLodingChat } from '../../../store/chat/thunks';
 
 interface Props {
   message: string;
@@ -7,13 +11,19 @@ interface Props {
   conversation: { message: string; createdBy: string; rol: string }[];
 }
 
-const ChatView: FC<Props> = ({
-  message,
-  onChangeMessage,
-  onSendMessage,
-  conversation,
-}) => {
-  console.log('conversation', conversation);
+const ChatView: FC<Props> = ({ message, onChangeMessage, onSendMessage, conversation }) => {
+  const [localConversation, setLocalConversation] = useState([]);
+  const dispatch = useAppDispatch();
+  const globalConversation = useSelector((state: RootState) => state.chat.messages);
+
+  console.log('globalConversation', globalConversation)
+  useEffect(() => {
+    dispatch(startLodingChat());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setLocalConversation(globalConversation);
+  }, [globalConversation]);
 
   const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -23,23 +33,19 @@ const ChatView: FC<Props> = ({
 
   return (
     <section>
-      <div className="container container-lg pt-16 w-full flex flex-col items-center min-h-screen">
-        <div className="w-full flex-1 bg-gray-200 p-4 overflow-y-auto"> {/* Mensajes */}
-          {conversation.map(({ message, createdBy, rol }, index) => (
+      <div className="container container-lg pt-16 w-full  flex flex-col items-center min-h-screen">
+        <div className="w-full flex-1 bg-gray-200 p-4 overflow-y-auto">
+          {globalConversation?.map(({ message, createdBy, rol }, index) => (
             <div className={`mb-4 ${index !== 0 ? 'border-t-2 border-gray-300 pt-4' : ''}`} key={index}>
-              {rol === 'MODERADOR' && ( 
-                <span className="font-bold text-blue-600">{createdBy} (MODERADOR)</span>
-              )}
-              {rol !== 'MODERADOR' && ( 
-                <span className="font-bold">{createdBy}</span>
-              )}
+              {rol === 'MODERADOR' && <span className="font-bold text-blue-600">{createdBy} (MODERADOR)</span>}
+              {rol !== 'MODERADOR' && <span className="font-bold">{createdBy}</span>}
               <div className={`rounded-lg p-3 ${rol === 'MODERADOR' ? 'bg-blue-200 self-end' : 'bg-green-200'}`}>
                 <span className="text-sm">{message}</span>
               </div>
             </div>
           ))}
         </div>
-        <div className="w-full flex items-center bg-gray-300 p-4"> {/* Input de mensaje */}
+        <div className="w-full flex items-center bg-gray-300 p-4">
           <input
             className="flex h-10 w-full rounded-md border border-[#e5e7eb] px-3 py-2 text-sm placeholder-[#6b7280] focus:outline-none focus:ring-2 focus:ring-[#9ca3af] disabled:cursor-not-allowed disabled:opacity-50 text-[#030712] focus-visible:ring-offset-2"
             placeholder="Type your message"
